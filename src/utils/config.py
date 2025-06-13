@@ -4,6 +4,7 @@ import yaml
 import os
 from pathlib import Path
 from typing import Dict, Any
+from datetime import datetime
 
 
 def load_config(config_path: str = None) -> Dict[str, Any]:
@@ -14,7 +15,7 @@ def load_config(config_path: str = None) -> Dict[str, Any]:
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
     
-    # Mock model info for API demo
+    # Mock model info for API demo - use strings for dates
     config['model_version'] = '1.0.0'
     config['training_date'] = '2024-01-01T00:00:00'
     config['metrics'] = {

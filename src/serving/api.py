@@ -65,7 +65,7 @@ async def lifespan(app: FastAPI):
         # Load model metadata
         MODEL_INFO = {
             "version": config.get('model_version', '1.0.0'),
-            "training_date": config.get('training_date', datetime.utcnow()),
+            "training_date": config.get('training_date', datetime.utcnow().isoformat()),
             "metrics": config.get('metrics', {})
         }
         
@@ -149,7 +149,7 @@ async def health_check():
         model_loaded=MODEL is not None,
         model_version=MODEL_INFO.get('version') if MODEL_INFO else None,
         uptime_seconds=uptime,
-        last_prediction_time=LAST_PREDICTION_TIME,
+        last_prediction_time=LAST_PREDICTION_TIME.isoformat() if LAST_PREDICTION_TIME else None,
         total_predictions=TOTAL_PREDICTIONS,
         checks=checks
     )

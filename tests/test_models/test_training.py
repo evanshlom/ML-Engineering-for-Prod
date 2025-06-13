@@ -19,14 +19,14 @@ class TestEarlyStopping:
         early_stopping = EarlyStopping(patience=3, min_delta=0.001)
         
         # Decreasing loss - should not trigger
-        assert not early_stopping(0.5)
-        assert not early_stopping(0.4)
-        assert not early_stopping(0.3)
+        assert early_stopping(0.5) == False
+        assert early_stopping(0.4) == False
+        assert early_stopping(0.3) == False
         
         # Plateauing loss - should trigger after patience
-        assert not early_stopping(0.301)
-        assert not early_stopping(0.302)
-        assert not early_stopping(0.301)
+        assert early_stopping(0.301) == False  # counter = 1
+        assert early_stopping(0.302) == False  # counter = 2
+        assert early_stopping(0.301) == True   # counter = 3, triggers now
         assert early_stopping.early_stop == True
 
 

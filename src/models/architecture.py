@@ -98,6 +98,17 @@ class NICUReadinessClassifier(nn.Module):
         Returns:
             Output logits of shape (batch_size, 1)
         """
+        # Handle single sample batch norm issue
+        if self.training and self.use_batch_norm and x.size(0) == 1:
+            self.eval()
+            output = self._forward_impl(x)
+            self.train()
+            return output
+        else:
+            return self._forward_impl(x)
+    
+    def _forward_impl(self, x: torch.Tensor) -> torch.Tensor:
+        """Actual forward implementation."""
         # Store input for skip connection
         identity = x
         
