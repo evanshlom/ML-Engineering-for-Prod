@@ -233,12 +233,38 @@ nicu-kangaroo-care-ml/
         └── test_inference.py
 ```
 
-## Performance
+## Beyond The Demo for Real World Application Optimization
 
-- Accuracy: ~92%
-- Inference: <10ms per prediction
-- Throughput: 1000+ requests/second
-- Model size: <1MB
+### Model Performance Issues
+
+**Accuracy Paradox**: 81% accuracy is misleading given severe class imbalance (76% negative, 24% positive).
+
+**Poor Precision**: 55.6% precision means nearly half of "suitable" predictions are false positives - dangerous for NICU infants.
+
+**Feature Importance Concerns**:
+- Weight dominates (42.7%) while temperature shows surprisingly low importance (9.4%)
+- Model may be overfitting to simple weight thresholds
+
+**Overconfident Predictions**: 100% probability outputs indicate poor calibration - medical decisions need nuanced probabilities.
+
+### Opportunities for Improvement
+
+- **Class Balancing**: SMOTE, weighted loss functions, or stratified sampling
+- **Probability Calibration**: Platt scaling or isotonic regression
+- **Higher Precision Target**: Minimize false positives through threshold tuning
+- **More Training Data**: Real clinical data or advanced augmentation
+- **Clinical Validation**: Expert review and prospective testing
+- **Uncertainty Quantification**: Ensemble methods or Bayesian approaches
+- **Feature Engineering**: Include temporal patterns and interaction terms
+
+### Production Considerations
+
+- Model versioning with DVC or MLflow
+- A/B testing framework for safe deployment
+- Real-time monitoring and drift detection
+- Explainability dashboard for clinicians
+- Regulatory compliance (FDA/CE marking)
+- Integration with hospital EHR systems
 
 ## License
 
