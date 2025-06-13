@@ -1,12 +1,13 @@
 """Pandera schemas for data validation in NICU kangaroo care prediction."""
 
 import pandera as pa
+from pandera.api.pandas.model import DataFrameModel
 from pandera.typing import DataFrame
 import pandas as pd
 from typing import Optional
 
 
-class NICUFeatureSchema(pa.SchemaModel):
+class NICUFeatureSchema(DataFrameModel):
     """Schema for validating NICU infant features."""
     
     heart_rate: float = pa.Field(
@@ -41,7 +42,7 @@ class NICUFeatureSchema(pa.SchemaModel):
         coerce = True
 
 
-class NICULabelSchema(pa.SchemaModel):
+class NICULabelSchema(DataFrameModel):
     """Schema for kangaroo care readiness labels."""
     
     suitable_for_kangaroo_care: bool = pa.Field(
@@ -54,7 +55,7 @@ class NICULabelSchema(pa.SchemaModel):
         strict = True
 
 
-class NICUDatasetSchema(pa.SchemaModel):
+class NICUDatasetSchema(DataFrameModel):
     """Complete dataset schema combining features and labels."""
     
     # Features
@@ -120,7 +121,7 @@ def validate_stability_metrics(df: DataFrame[NICUDatasetSchema]) -> DataFrame[NI
 
 
 # Model validation schemas
-class ModelMetricsSchema(pa.SchemaModel):
+class ModelMetricsSchema(DataFrameModel):
     """Schema for model evaluation metrics."""
     
     accuracy: float = pa.Field(ge=0.0, le=1.0)
@@ -134,7 +135,7 @@ class ModelMetricsSchema(pa.SchemaModel):
         strict = True
 
 
-class TrainingMetricsSchema(pa.SchemaModel):
+class TrainingMetricsSchema(DataFrameModel):
     """Schema for training progress metrics."""
     
     epoch: int = pa.Field(ge=0)

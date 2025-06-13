@@ -17,6 +17,9 @@ COPY requirements.txt requirements-dev.txt ./
 RUN pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir -r requirements-dev.txt
 
+# Copy Makefile
+COPY Makefile ./
+
 # Copy source code
 COPY src/ ./src/
 COPY configs/ ./configs/

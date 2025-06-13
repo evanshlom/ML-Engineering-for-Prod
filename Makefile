@@ -44,10 +44,10 @@ clean:
 	rm -rf data/processed/*.csv
 	rm -rf data/models/*.pt
 
-data:
+generate-data:
 	python -m src.data.generator
 
-train:
+train-model:
 	python -m src.models.training
 
 serve:
@@ -66,10 +66,10 @@ docker-compose-down:
 	docker-compose down
 
 # Development workflow
-dev-setup: install data
+dev-setup: install generate-data
 	@echo "Development environment ready!"
 
-dev-train: data train
+dev-train: generate-data train-model
 	@echo "Model trained with latest data!"
 
 dev-test: lint test

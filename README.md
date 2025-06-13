@@ -6,15 +6,16 @@ PyTorch Application with Pydantic and FastAPI for deployment, plus PyTest and Pa
 
 ### Setup & Run Steps
 
-#### 1. Start the containers
+#### 1. Build and start the containers
 ```cmd
+docker-compose build
 docker-compose up -d
 ```
-Builds and starts the API container in background. Creates the NICU ML service on port 8000.
+Builds the Docker image and starts the API container on port 8000.
 
 #### 2. Generate data
 ```cmd
-docker-compose exec api make data
+docker-compose exec api make generate-data
 ```
 Generates 2000 synthetic NICU patient records with realistic correlations.
 
@@ -26,7 +27,7 @@ Runs full PyTest suite including model architecture tests, API endpoint tests, a
 
 #### 4. Train model
 ```cmd
-docker-compose exec api make train
+docker-compose exec api make train-model
 ```
 - Trains PyTorch binary classifier with early stopping
 - Saves model to `data/models/`
@@ -54,7 +55,7 @@ Stops and removes containers. Data persists in `data/` directory.
 ### 1. Run all tests first
 ```cmd
 docker-compose up -d
-docker-compose exec api make data
+docker-compose exec api make generate-data
 docker-compose exec api pytest tests/ -v
 ```
 Tests include:
